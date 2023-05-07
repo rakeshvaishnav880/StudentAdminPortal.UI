@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../student.service';
 import { ActivatedRoute } from '@angular/router';
+import { Student } from '../models/ui-models/student.model';
 
 @Component({
   selector: 'app-view-student',
@@ -9,7 +10,26 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ViewStudentComponent implements OnInit {
  id : string| null | undefined;
-
+  student : Student = {
+    id: '',
+    firstName: '',
+    lastName: '',
+    dateOfBirth: '',
+    email: '',
+    mobile: 0,
+    genderId: '',
+    profileImageUrl: '',
+    gender: {
+      id:'',
+      discription:''
+    },
+    address: {
+      id:'',
+      physicalAddress:'',
+      postalAddress:'',
+      studentId:''
+    }
+  }
   constructor(private readonly studentService : StudentService,
     private readonly route:ActivatedRoute){}
 
@@ -21,7 +41,7 @@ export class ViewStudentComponent implements OnInit {
           this.studentService.getStudent(this.id)
           .subscribe(
              (successResponse)=>{
-              console.log(successResponse);
+             this.student = successResponse;
             }
           );
 
