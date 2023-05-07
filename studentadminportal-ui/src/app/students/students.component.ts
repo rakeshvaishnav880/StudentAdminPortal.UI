@@ -24,7 +24,7 @@ export class StudentsComponent implements OnInit {
 
   ngOnInit():void{
     //Fetch Student server
-    this.studentService.getStudent()
+    this.studentService.getStudents()
     .subscribe({
       next: (successResponse) =>{
         this.students =successResponse,
