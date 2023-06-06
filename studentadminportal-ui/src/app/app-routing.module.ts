@@ -17,6 +17,10 @@ const routes: Routes = [
     path: 'students/get-student/:id',
     component : ViewStudentComponent
   }
+  // {
+  //   path: 'genders/get-allgenders',
+  //   component : ViewStudentComponent
+  // }
   ];
 
 @NgModule({
