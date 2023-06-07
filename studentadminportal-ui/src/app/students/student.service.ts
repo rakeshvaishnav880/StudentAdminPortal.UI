@@ -35,7 +35,11 @@ export class StudentService {
       physicalAddress:StudentRequest.address.physicalAddress,
       postalAddress:StudentRequest.address.postalAddress
     }
-    return this.httpClient.put<Student>(this.baseApiUrl + '/Students/update-StudentByid/'+id,UpdateStudentRequest);
+    return this.httpClient.put<Student>(this.baseApiUrl + '/Students/update-studentByid/'+id,UpdateStudentRequest);
+  }
+
+  deleteStudent(id:string):Observable<Student>{
+    return this.httpClient.delete<Student>(this.baseApiUrl + '/Students/delete-studentByid/'+id);
   }
 
 }
