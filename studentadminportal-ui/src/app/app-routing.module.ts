@@ -14,6 +14,10 @@ const routes: Routes = [
     component : StudentsComponent
   },
   {
+    path: 'students/add-newstudent',
+    component : ViewStudentComponent
+  },
+  {
     path: 'students/get-student/:id',
     component : ViewStudentComponent
   }

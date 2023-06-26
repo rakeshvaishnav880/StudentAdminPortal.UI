@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Student } from './models/api-models/student.model';
 import { UpdateStudentRequest } from './models/api-models/update-student-request.model';
 import { StudentsComponent } from './students.component';
+import { AddStudentRequest } from './models/api-models/add-student-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -42,4 +43,19 @@ export class StudentService {
     return this.httpClient.delete<Student>(this.baseApiUrl + '/Students/delete-studentByid/'+id);
   }
 
+  addStudent(StudentRequest : Student):Observable<Student>
+  {
+    const addStudentRequest:AddStudentRequest=
+    {
+      firstName:StudentRequest.firstName,
+      lastName:StudentRequest.lastName,
+      dateOfBirth:StudentRequest.dateOfBirth,
+      email:StudentRequest.email,
+      mobile:StudentRequest.mobile,
+      genderId:StudentRequest.genderId,
+      physicalAddress:StudentRequest.address.physicalAddress,
+      postalAddress:StudentRequest.address.postalAddress
+    }
+    return this.httpClient.post<Student>(this.baseApiUrl + '/Students/add-newstudent', addStudentRequest);
+  }
 }

@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./view-student.component.css']
 })
 export class ViewStudentComponent implements OnInit {
- id : string| null | undefined;
+  studentid : string | null | undefined;
   student : Student = {
     id: '',
     firstName: '',
@@ -32,8 +32,10 @@ export class ViewStudentComponent implements OnInit {
       postalAddress:'',
       studentId:''
     }
-  }
+  };
 
+  isNewStudent = false;
+  header = '';
   genderList: Gender[] = [];
   constructor(private readonly studentService : StudentService,
     private readonly route:ActivatedRoute,
@@ -45,25 +47,34 @@ export class ViewStudentComponent implements OnInit {
   ngOnInit():void{
     this.route.paramMap.subscribe(
       (params)=>{
-        this.id = params.get('id');
-        if(this.id){
-          this.studentService.getStudent(this.id)
-          .subscribe(
-             (successResponse)=>{
-             this.student = successResponse;
-            }
-          );
+        this.studentid = params.get('id');
+        if(this.router.routerState.snapshot.url  == '/students/add-newstudent')
+        {
 
-          this.genderService.getGenderList()
+          this.isNewStudent = true;
+          this.header = 'Add New Student';
+        }
+        else{
+          // -> Exiting student functionality
+          this.isNewStudent = false;
+          this.header = 'Update Student';
+        }
+        this.genderService.getGenderList()
           .subscribe(
             (successResponse)=>{
            this.genderList = successResponse;
            }
          );
+        if(this.studentid){
+          this.studentService.getStudent(this.studentid)
+          .subscribe(
+             (successResponse)=>{
+             this.student = successResponse;
+            }
+          );
         }
       }
       );
-
   }
 
   onUpdate():void{
@@ -81,7 +92,7 @@ export class ViewStudentComponent implements OnInit {
           //Log it
       }
 
-    )
+    );
   }
 
   onDelete():void{
@@ -102,6 +113,27 @@ export class ViewStudentComponent implements OnInit {
       (errorResponse) => {
           //Log it
       }
-    )
+    );
   }
+
+  onAdd():void{
+ //Call student service to delete student
+ this.studentService.addStudent(this.student)
+ .subscribe(
+  (successResponse)=>{
+    //console.log(successResponse);
+    //Show a notification
+    this.snackbar.open('Student Added successfully!',undefined,{
+      duration:2000
+    });
+
+    setTimeout(() => {
+      this.router.navigateByUrl(`students/get-student/${successResponse.id}`);
+    }, 2000);
+  },
+   (errorResponse) => {
+       //Log it
+   }
+ );
+}
 }
