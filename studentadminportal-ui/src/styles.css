@@ -14,6 +14,10 @@ html, body { height: 100%; }
   margin-left: 1em;
 }
 
+.ml-0{
+  margin-left: 0.5;
+}
+
 .mt-1{
   margin-top: 1em;
 }
